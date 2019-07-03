@@ -3,7 +3,7 @@ import json
 from flask import Response
 
 from app import db, api
-from models import Workers, Dept
+from models import Worker, Department
 from flask_restful import reqparse, abort, Resource
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 
