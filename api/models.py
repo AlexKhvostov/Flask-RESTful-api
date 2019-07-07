@@ -5,7 +5,7 @@ from app import db
 class Worker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     department_key = db.Column(db.Integer)
-    name = db.Column(db.String(30))
+    worker_name = db.Column(db.String(30))
     birthday = db.Column(db.Date)
     salary = db.Column(db.Integer)
 
@@ -13,8 +13,8 @@ class Worker(db.Model):
         super(Worker, self).__init__(*args, **kwargs)
 
     def __repr__(self):
-        return '(id: {}, worker_name: {}, department_key: {}, birthday: {}, salary: {})'\
-            .format(self.id, self.fullname, self.deptname, self.birthday, self.salary)
+        return '{id: {}, worker_name: {}, department_key: {}, birthday: {}, salary: {}}'\
+            .format(self.id, self.worker_name, self.department_key, self.birthday, self.salary)
 
 
 # описание объектов в базе данных
@@ -26,4 +26,8 @@ class Department(db.Model):
         super(Department, self).__init__(*args, **kwargs)
 
     def __repr__(self):
-        return '(id: {}, department: {})'.format(self.id, self.name)
+        return '(id: {}, department_name: {})'.format(self.id, self.department_name)
+
+
+db.create_all()
+
