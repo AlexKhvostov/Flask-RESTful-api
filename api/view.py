@@ -59,13 +59,14 @@ class WorkerList(Resource):
             db.session.commit()
         except Exception as ex:
             return Response(f'interval {ex!r}', status=500)
-        workert_list = {'add_id': worker_add.id,
+
+        workers_list = {'add_id': worker_add.id,
                         'department_key': worker_add.department_key,
                         'worker_name': worker_add.worker_name,
                         'birthday': str(worker_add.birthday),
                         'salary': worker_add.salary}
 
-        return Response(json.dumps(workert_list), status=200)
+        return Response(json.dumps(workers_list), status=200)
 
     def delete(self):
         args = parser.parse_args()
