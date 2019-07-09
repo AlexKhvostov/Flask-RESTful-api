@@ -141,11 +141,10 @@ api.add_resource(Department_one, '/department/<department_id>')
 api.add_resource(Worker_one, '/worker/<worker_id>')
 
 
-
 def get_one_worker(worker_id):
     worker_list = {}
     worker_list[worker_id] = {
-        'department_key': 'not found',
+        'department_name': 'not found',
         'worker_name': 'not found',
         'birthday': 'not found',
         'salary': 'not found'
@@ -153,7 +152,7 @@ def get_one_worker(worker_id):
     if Worker.query.filter_by(id=worker_id).first():
         worker_one = Worker.query.filter_by(id=worker_id).first()
         worker_list[worker_id] = {
-            'department_key': worker_one.department_key,
+            'department_name': get_name_department(worker_one.department_key),
             'worker_name': worker_one.worker_name,
             'birthday': str(worker_one.birthday),
             'salary': worker_one.salary
@@ -166,7 +165,7 @@ def get_all_worker():
     worker_all = Worker.query.all()
     for id in range(len(worker_all)):
         worker_list[str(worker_all[id].id)] = {
-            'department_key': worker_all[id].department_key,
+            'department_name': get_name_department(worker_all[id].department_key),
             'worker_name': worker_all[id].worker_name,
             'birthday': str(worker_all[id].birthday),
             'salary': worker_all[id].salary
@@ -196,3 +195,9 @@ def get_all_department():
             'department_name': department_one[id].department_name
         }
     return department_list
+
+
+def get_name_department(department_id):
+    department = get_one_department(department_id)
+    name = department[department_id]['department_name']
+    return name
