@@ -15,7 +15,11 @@ parser.add_argument('department_name')
 parser.add_argument('department_key')
 parser.add_argument('worker_name')
 parser.add_argument('birthday')
+parser.add_argument('birthday_start')
+parser.add_argument('birthday_end')
 parser.add_argument("salary")
+
+
 
 
 class DepartmentList(Resource):
