@@ -16,7 +16,7 @@ parser.add_argument('department_key')
 parser.add_argument('worker_name')
 parser.add_argument('birthday')
 parser.add_argument('birthday_start')
-parser.add_argument('birthday_end')
+parser.add_argument('birthday_finish')
 parser.add_argument("salary")
 
 
@@ -160,9 +160,22 @@ def get_one_worker(worker_id):
     return worker_list
 
 
+def filter_workers():
+    args = parser.parse_args()
+    if args['birthday_start'] and args['birthday_finish']:
+        worker_filter = Worker.query.filter((Worker.birthday.between(args['birthday_start'], args['birthday_finish']))).all()
+    elif args['birthday_start']:
+        worker_filter = Worker.query.filter(Worker.birthday >= args['birthday_start']).all()
+    elif args['birthday_finish']:
+        worker_filter = Worker.query.filter(Worker.birthday <= args['birthday_finish']).all()
+    else:
+        worker_filter = Worker.query.all()
+
+    return worker_filter
+
 def get_all_worker():
     worker_list = {}
-    worker_all = Worker.query.all()
+    worker_all = filter_workers()
     for id in range(len(worker_all)):
         worker_list[str(worker_all[id].id)] = {
             'department_name': get_name_department(worker_all[id].department_key),
@@ -176,13 +189,16 @@ def get_all_worker():
 def get_one_department(department_id):
     department_list = {}
     department_list[department_id] = {
-        'department_name': "not found"
+        'department_name': "not found",
+        'average_salary': "not found"
     }
 
     if Department.query.filter_by(id=department_id).first():
         department_one = Department.query.filter_by(id=department_id).first()
+
         department_list[department_id] = {
-            'department_name': department_one.department_name
+            'department_name': department_one.department_name,
+            'average_salary': average_salary(department_one.id)
         }
     return department_list
 
@@ -192,7 +208,8 @@ def get_all_department():
     department_one = Department.query.all()
     for id in range(len(department_one)):
         department_list[str(department_one[id].id)] = {
-            'department_name': department_one[id].department_name
+            'department_name': department_one[id].department_name,
+            'average_salary': average_salary(department_one[id].id)
         }
     return department_list
 
@@ -201,3 +218,25 @@ def get_name_department(department_id):
     department = get_one_department(department_id)
     name = department[department_id]['department_name']
     return name
+
+
+def average_salary(department_id):
+    worker = Worker.query.all()
+
+    delta = 0
+    k = 0
+
+    for i in worker:
+        if i.department_key == int(department_id):
+            delta += int(i.salary)
+            k += 1
+
+    try:
+        delta = delta / k
+    except ZeroDivisionError:
+        delta = 0
+
+    return delta
+
+
+
