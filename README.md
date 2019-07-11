@@ -1,12 +1,10 @@
 # Flask-RESTful-api
 Database processing service
 
-web service starts at 127.0.0.1:5020. 
+1. The REST API 
+ 
+ The REST API is available at 
 
-    table of workers : 127.0.0.1:5020/workers
-    table of departments : 127.0.0.1:5020/departments
-
-The REST API is available at 
     
     127.0.0.1:5000 
 
@@ -49,3 +47,17 @@ Method DELETE:
     127.0.0.1:5000/worker/<id> - delete worker, whose number is <id>
     127.0.0.1:5000/department/<id> - delete department, whose number is <id>
 
+
+2. WEB service.
+
+WEB service starts at :
+
+      127.0.0.1:5020
+
+table of workers : 
+
+    127.0.0.1:5020/workers
+    
+table of departments : 
+
+    127.0.0.1:5020/departments
