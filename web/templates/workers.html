@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+    Datebase
+{% endblock %}
+
+
+{% block content_title %}
+   Database of workers:
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="col-md-8">
+
+        <table  class="table table-sm table-hover table-striped table-bordered" >
+            <form name="birthday_filter"  method="POST">
+                <tr>
+                    <td><h3>Filter by date of birth: </h3></td>
+                    <td></td>
+                    <td>begin:<br> <input type="date" name="birthday_start" min="1950-01-01" max="2010-01-01"  size="8" value="{{ date_filter['birthday_start'] }}"/> </td>
+                    <td>end:<br> <input type="date" name="birthday_finish" min="1950-01-01" max="2010-01-01"  size="8"  value="{{ date_filter['birthday_finish'] }}" /> </td>
+                    <td><button type="submit" class="btn btn-warning btn-sm" name="filter_date" value="filter_date_button">search</button> </td>
+                </tr>
+            </form>
+        </table>
+        <table  class="table table-sm table-hover table-striped table-bordered" >
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">№:</th>
+                <th scope="col">Name:</th>
+                <th scope="col">Department:</th>
+                <th scope="col">Birthday:</th>
+                <th scope="col">Salary:</th>
+                <th scope="col" ></th>
+                <th scope="col" ></th>
+            </tr>
+            </thead>
+            {% for id in worker %}
+                <tr>
+                    <form method="POST" name = "Worker">
+                        <th>
+                            <input name="id" type="text" size="1" disabled value= "{{ id }}">
+                        </th>
+                        <th>
+                            <input name="worker_name" type="text" size="10" value= {{ worker[id]['worker_name'] }} >
+                        </th>
+                        <th>
+                            <select size="1" name="department_key">
+                                <option selected disabled >Выберите отдел</option>
+                                {% for idd in department %}
+                                    <option {% if department[idd]['department_name'] == worker[id]['department_name'] %} {{ "selected" }} {% endif %} value={{ idd }}>{{ department[idd]['department_name'] }}</option>
+                                {% endfor %}
+
+                            </select>
+
+                        </th>
+                        <th>
+                            <input type="date" name="birthday" min="1950-01-01" max="2010-01-01"  size="10"  value={{ worker[id]['birthday'] }} />
+
+                        </th>
+                        <th>
+                            <input name="salary" type="text" size="4" value={{ worker[id]['salary'] }}>
+                        </th>
+                        <th>
+
+                            <button name="edit" value="{{ id }}" type="submit" class="btn btn-success btn-sm">save</button>
+                        </th>
+                    </form>
+                    <th>
+                        <form method="POST" name = {{ id }}>
+                            <button type="submit" name="delete" value="{{ id }}" class="btn btn-danger btn-sm">del</button>
+                        </form>
+                    </th>
+                </tr>
+            {% endfor %}
+            <tr style="color: slategray">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <form  method="POST">
+                <tr class="table-dark">
+                    <th> + </th>
+                    <th>
+                        <input name="worker_name" type="text" size="10" placeholder= "new name" >
+                    </th>
+                    <th>
+                        <select size="1" name="department_key">
+                            <option selected disabled >Выберите отдел</option>
+                            {% for id in department %}
+                                <option value={{ id }}>{{ department[id]['department_name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th>
+                        <input type="date" name="birthday" min="1950-01-01" max="2010-01-01"  size="10"  />
+                    </th>
+                    <th>
+                        <input name="salary" type="text" size="4" placeholder= "1200">
+                    </th>
+                    <th colspan="2">
+                        <button name="add" value="worker_add" type="submit" class="btn btn-primary btn-sm">add</button>
+                    </th>
+
+                </tr>
+            </form>
+        </table>
+    </div>
+{% endblock %}
+

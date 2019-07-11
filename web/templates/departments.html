@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+    Datebase
+{% endblock %}
+
+
+{% block content_title %}
+   Database of departments:
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-md-6" xmlns="http://www.w3.org/1999/html">
+        <table  class="table table-sm table-hover table-striped table-bordered" >
+
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">№:</th>
+                <th scope="col">Department:</th>
+                <th scope="col">Average salary:</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            {% for idd in department %}
+                <tr>
+                    <form method="POST" name = "departments" >
+                        <td>
+                            <input name="id" value="{{ idd }}" size="1" disabled>
+                        </td>
+                        <td>
+                            <input name="department_name" type="text" size="10" value={{ department[idd]['department_name'] }} >
+                        </td>
+
+                        <td>
+                            <input disabled type="text" size="4" value= {{ department[idd]['average_salary'] }} >
+                        </td>
+                        <th>
+                            <button name="edit" value="{{ idd }}" type="submit" class="btn btn-success btn-sm">save</button>
+                        </th>
+
+                        <th>
+                           <!-- <form method="POST" name = {{ id }}> -->
+                                <button name="delete" value="{{ idd }}" type="submit" class="btn btn-danger btn-sm">del</button>
+                           <!-- </form> -->
+                        </th>
+                    </form>
+                </tr>
+            {%   endfor %}
+            <tr  style="color: slategray">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr >
+            <form  method="POST">
+                <tr class="table-dark">
+                    <td> + </td>
+                    <td>
+                        <input id=1  name="department_name" type="text" size="10" placeholder="new name" >
+                    </td>
+                    <td>
+                        <button name = "add" type="submit" class="btn btn-primary btn-sm" value="department_add">add</button>
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+
+{% endblock %}
+
