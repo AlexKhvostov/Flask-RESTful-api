@@ -1,10 +1,7 @@
-# Flask-RESTful-api
 Database processing service
-
-1. The REST API 
+# The REST API 
  
  The REST API is available at 
-
     
     127.0.0.1:5000 
 
@@ -48,7 +45,7 @@ Method DELETE:
     127.0.0.1:5000/department/<id> - delete department, whose number is <id>
 
 
-2. WEB service.
+# WEB service:
 
 WEB service starts at :
 
